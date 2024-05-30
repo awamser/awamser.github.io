@@ -32,7 +32,8 @@ linkedin_username: wamser
 
 # Build settings
 # theme: minima
-remote_theme: aterenin/minima-reboot
+theme: minima-reboot
+# remote_theme: aterenin/minima-reboot
 plugins:
   - jekyll-feed
 
