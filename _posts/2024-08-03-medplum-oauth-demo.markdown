@@ -7,7 +7,7 @@ categories: medplum oauth
 
 ### Introduction
 
-This guide demonstrates how to integrate OAuth authentication with Medplum using SwiftUI and ASWebAuthenticationSession. OAuth is an open standard for access delegation, commonly used to grant websites or applications limited access to user information without exposing credentials.
+This guide demonstrates how to integrate OAuth authentication with Medplum in SwiftUI and ASWebAuthenticationSession. OAuth is an open standard for access delegation, commonly used to grant websites or applications limited access to user information without exposing credentials.
 
 ## Medplum OAuth Flow
 
@@ -15,7 +15,7 @@ The following [link](https://www.medplum.com/docs/auth/methods/oauth-auth-code) 
 
 ## AuthViewModel Class
 
-All of the OAuth implementation is in the `AuthViewModel` class. This class manages the authentication state, handles the OAuth flow, and provides methods for logging in and out. Let's break down its key components:
+All of the OAuth implementation is in the `AuthViewModel` class. This class manages the authentication state, handles the OAuth flow, and provides methods for logging in and out. Let's break down its key components.
 
 ### Key Properties
 
