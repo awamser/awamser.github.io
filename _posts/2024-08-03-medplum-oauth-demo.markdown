@@ -5,8 +5,9 @@ date: 2024-08-03 17:47:10 -0500
 categories: medplum oauth
 ---
 
-In this example, I'll demonstrates `OAuth` authentication with `Medplum` in a SwiftUI iOS application. The app will allow a user to log in using their Medplum credentials and display their access token upon successful authentication (you should never show
-your token ;). The focus is on the AuthViewModel class, which handles the OAuth flow and token retrieval.
+### Introduction
+
+This guide demonstrates how to integrate OAuth authentication with Medplum using SwiftUI and ASWebAuthenticationSession. OAuth is an open standard for access delegation, commonly used to grant websites or applications limited access to user information without exposing credentials.
 
 ## Medplum OAuth Flow
 
