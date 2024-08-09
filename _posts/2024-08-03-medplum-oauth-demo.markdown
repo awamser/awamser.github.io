@@ -11,11 +11,11 @@ This guide demonstrates how to integrate OAuth authentication with Medplum using
 
 ## Medplum OAuth Flow
 
-The following [link](https://www.medplum.com/docs/auth/methods/oauth-auth-code) provides a detailed explanation of the OAuth 2.0 authorization code flow for Medplum:
+The following [link](https://www.medplum.com/docs/auth/methods/oauth-auth-code) provides a detailed explanation of the OAuth 2.0 authorization code flow for Medplum.
 
 ## AuthViewModel Class
 
-All of our OAuth implementation is in the `AuthViewModel` class. This class manages the authentication state, handles the OAuth flow, and provides methods for logging in and out. Let's break down its key components:
+All of the OAuth implementation is in the `AuthViewModel` class. This class manages the authentication state, handles the OAuth flow, and provides methods for logging in and out. Let's break down its key components:
 
 ### Key Properties
 
@@ -54,20 +54,15 @@ func login() {
 
 ### OAuth Authentication using ASWebAuthenticationSession
 
-ASWebAuthenticationSession is an Apple-provided class in the AuthenticationServices Framework that manages web-based authentication sessions. It's useful for OAuth flows because it:
-
-- Provides a secure, in-app web view for user authentication.
-- Handles callback URLs automatically.
-- Ensures privacy by using isolated sessions:
+ASWebAuthenticationSession is an Apple-provided class in the AuthenticationServices Framework that manages web-based authentication sessions. It’s useful for OAuth flows because it; provides a secure, in-app web view for user authentication,  handles callback URLs automatically, and ensures privacy using isolated sessions.
 
 ## Generating authURL and callbackURLScheme.
 
-Creating the authURL is straightforward based on the Medplum documentation. Important: When calling the authorize endpoint with `grant_type` set to `authorization_code`, you must include the `code_challenge` and `code_challenge_method`. These parameters are required for PKCE (Proof Key for Code Exchange) and is necessary for requesting the token later.
+Creating the authURL is straightforward using the Medplum documentation. Important: When calling the authorize endpoint with `grant_type` set to `authorization_code`, you must include the `code_challenge` and `code_challenge_method`. These parameters are required for PKCE (Proof Key for Code Exchange) and necessary for requesting the token later.
 
 ### Create the code challange for PKCE
 
-The `generateCodeVerifier()` function create and stores the `codeVerifier` and `codeChallenge` required for OAuth 2.0 PKCE, which enhances security for public clients like mobile apps that can’t securely store a client secret. This flow ensures robust and secure authentication, protecting both
-user credentials and access tokens.
+The `generateCodeVerifier()` function creates and stores the `codeVerifier` and `codeChallenge` required for OAuth 2.0 PKCE, which enhances security for public clients like mobile apps that can’t securely store a client secret. This flow ensures robust and secure authentication, protecting user credentials and access tokens.
 
 {% highlight swift %}
     private func generateCodeVerifier() {
@@ -98,8 +93,8 @@ user credentials and access tokens.
 
 ### Generate the `authURL`
 
-Now that we have the `code_challenge` and `code_verifier`, we can create the authURL. The authURL is the URL to which the user will be redirected to for authentication. The URL includes the client ID, response type, redirect URI, scope, and code
-challenge.
+Now that we have the `code_challenge` and `code_verifier`, we can create the authURL. The authURL is the URL to which the user will be redirected to for authentication. It includes the client ID, response type, redirect URI, scope, and code
+challenge details.
 
 {% highlight swift %}
 
@@ -120,7 +115,7 @@ challenge.
 
 ### Generate the `callbackURLScheme`
 
-The `callbackURLScheme` is a custom URL scheme that the app registers in its Info.plist file. It's used to return the authorization code to the app after the user completes the authentication process. You can add the redirect URL in the Project -->
+The `callbackURLScheme` is a custom URL scheme that the app registers in its Info.plist file. It returns the authorization code to the app after the user completes the authentication process. You can add the redirect URL in the Project -->
 Info --> URL Types section in Xcode or manually.
 
 {% highlight xml %}
@@ -157,7 +152,7 @@ let scheme = URL(string: redirectUri)!.scheme
 
 ### Create ASWebAuthenticationSession and handle the callback
 
-The code creates an ASWebAuthenticationSession with the authorization URL and callback scheme URL. When the user completes the authentication, the system captures the callback URL and returns it to our app, where you extract the authorization code.
+Creates an ASWebAuthenticationSession with the authorization URL and callback scheme URL. When the user completes the authentication, the system captures the callback URL and returns it to our app, where you extract the authorization code.
 Once you have the authorization code, you can exchange it for an access token with a simple POST call to the Medplum token [endpoint](https://www.medplum.com/docs/api/oauth/token).
 
 {% highlight swift %}
@@ -185,7 +180,7 @@ Once you have the authorization code, you can exchange it for an access token wi
 
 ### Exchanging the Code for a Token
 
-After receiving the authorization code via the `handleCallback()` function, the `exchangeCodeForToken()` function is called to obtain the access token:
+Receive the authorization code via the `handleCallback()` function, then the `exchangeCodeForToken()` function obtains the access token.
 
 {% highlight swift %} 
 
@@ -243,8 +238,7 @@ The `exchangeCodeForToken()` function sends a POST request to Medplum's token en
 
 ## Conclusion
 
-This `AuthViewModel` provides a robust implementation of OAuth 2.0 authentication with PKCE for Medplum. By using `ASWebAuthenticationSession`, it ensures a secure authentication flow within your SwiftUI app. Remember to handle the authentication
-state in your UI, displaying login options when `isAuthenticated` is false and secured content when it's true.
+This AuthViewModel robustly implements OAuth 2.0 authentication with PKCE for Medplum. By using ASWebAuthenticationSession, it ensures a secure authentication flow within your SwiftUI app. Remember to handle the authentication state in your UI, displaying login options when isAuthenticated is false and secured content when it’s true.
 
-For a complete implementation, you'll need to create SwiftUI views that utilize this view model and respond to changes in the authentication state. Always ensure you're following best practices for securing tokens and handling user data in your production
-applications. Complete source code for this implementation is available on [GitHub](https://github.com/awamser/MedplumSwiftUIAuth)
+For a complete implementation, you’ll need to create SwiftUI views that utilize this view model and respond to changes in the authentication state. Always follow best practices for securing tokens and handling user data in your production applications. The complete source code for this implementation is available on [Github](https://github.com/awamser/MedplumSwiftUIAuth). 
+
