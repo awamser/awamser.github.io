@@ -65,7 +65,7 @@ Creating the authURL is straightforward based on the Medplum documentation. Impo
 
 ### Create the code challange for PKCE
 
-The `generateCodeVerifier` function create and stores the `codeVerifier` and `codeChallenge` required for OAuth 2.0 PKCE, which enhances security for public clients like mobile apps that can’t securely store a client secret. This flow ensures robust and secure authentication, protecting both
+The `generateCodeVerifier()` function create and stores the `codeVerifier` and `codeChallenge` required for OAuth 2.0 PKCE, which enhances security for public clients like mobile apps that can’t securely store a client secret. This flow ensures robust and secure authentication, protecting both
 user credentials and access tokens.
 
 {% highlight swift %}
@@ -197,7 +197,7 @@ After receiving the authorization code via the `handleCallback()` function, the 
 
 {% endhighlight %}
 
-This function sends a POST request to Medplum's token endpoint with the necessary parameters, including the authorization `code` and `code_verifier`. Upon successful response, it updates the `accessToken` and `isAuthenticated` properties.
+The `exchangeCodeForToken()` function sends a POST request to Medplum's token endpoint with the necessary parameters, including the authorization `code` and `code_verifier`. Upon successful response, it updates the `accessToken` and `isAuthenticated` properties.
 
 {% highlight swift %}
 
