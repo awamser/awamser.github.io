@@ -3,6 +3,7 @@ layout: post
 title: "Image Crop Tool using SwiftUI"
 date: 2025-02-08
 categories: ios, swift, swiftui
+author: "Alan"
 ---
 
 # Image Cropping Application Tutorial
