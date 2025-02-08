@@ -3,6 +3,7 @@ layout: post
 title: "Medplum OAuth Demo with SwiftUI"
 date: 2024-10-03
 categories: medplum oauth
+author: "Alan"
 ---
 
 This guide provides instructions on setting up OAuth authentication in a native SwiftUI iOS application to authenticate with Medplum. OAuth is a widely adopted open standard that enables secure access delegation. It allows third-party applications to request access to a user’s resources, such as their account information, data, or files, without needing to obtain and store the user’s credentials (e.g., username and password).

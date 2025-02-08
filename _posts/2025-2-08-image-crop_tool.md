@@ -26,7 +26,7 @@ The `ImagePickerView` uses SwiftUI's `PhotosPicker` for image selection:
 
 ```swift
 PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
-    Label("Select", systemImage: "photo")
+  Label("Select", systemImage: "photo")
 }
 .buttonStyle(.borderedProminent)
 ```
@@ -35,19 +35,19 @@ When an image is selected, it's processed by the ViewModel:
 
 ```swift
 func loadImage(from item: PhotosPickerItem?) async {
-    guard let item = item else { return }
+  guard let item = item else { return }
 
-    croppedImage = nil
-    cachedDisplaySize = nil  // Reset cache when loading new image
+  croppedImage = nil
+  cachedDisplaySize = nil  // Reset cache when loading new image
 
-    do {
-        if let data = try await item.loadTransferable(type: Data.self),
-           let uiImage = UIImage(data: data) {
-            selectedImage = uiImage
-        }
-    } catch {
-        print("Failed to load image: \(error.localizedDescription)")
+  do {
+    if let data = try await item.loadTransferable(type: Data.self),
+       let uiImage = UIImage(data: data) {
+      selectedImage = uiImage
     }
+  } catch {
+    print("Failed to load image: \(error.localizedDescription)")
+  }
 }
 ```
 
@@ -57,31 +57,31 @@ The `CropOverlayView` creates a draggable crop rectangle with a semi-transparent
 
 ```swift
 struct CropOverlayView: View {
-    @Binding var cropRect: CGRect
+  @Binding var cropRect: CGRect
 
-    var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                // Semi-transparent overlay
-                Color.black.opacity(0.5)
-                    .mask(
-                        Rectangle()
-                            .overlay(
-                                Rectangle()
-                                    .frame(width: cropRect.width, height: cropRect.height)
-                                    .position(x: cropRect.midX, y: cropRect.midY)
-                                    .blendMode(.destinationOut)
-                            )
-                    )
-
-                // Crop rectangle border
+  var body: some View {
+    GeometryReader { geometry in
+      ZStack {
+        // Semi-transparent overlay
+        Color.black.opacity(0.5)
+          .mask(
+            Rectangle()
+              .overlay(
                 Rectangle()
-                    .strokeBorder(Color.white, lineWidth: 2)
-                    .frame(width: cropRect.width, height: cropRect.height)
-                    .position(x: cropRect.midX, y: cropRect.midY)
-            }
-        }
+                  .frame(width: cropRect.width, height: cropRect.height)
+                  .position(x: cropRect.midX, y: cropRect.midY)
+                  .blendMode(.destinationOut)
+              )
+          )
+
+        // Crop rectangle border
+        Rectangle()
+          .strokeBorder(Color.white, lineWidth: 2)
+          .frame(width: cropRect.width, height: cropRect.height)
+          .position(x: cropRect.midX, y: cropRect.midY)
+      }
     }
+  }
 }
 ```
 
@@ -91,11 +91,11 @@ The application uses a `isCropModeActive` state to manage the cropping interface
 
 ```swift
 func toggleCropMode() {
-    isCropModeActive.toggle()
-    if !isCropModeActive {
-        // Reset crop rect when exiting crop mode
-        cropRect = .zero
-    }
+  isCropModeActive.toggle()
+  if !isCropModeActive {
+    // Reset crop rect when exiting crop mode
+    cropRect = .zero
+  }
 }
 ```
 
@@ -105,30 +105,30 @@ The crucial cropping implementation in the ViewModel:
 
 ```swift
 func cropImage() {
-    guard let image = selectedImage else { return }
+  guard let image = selectedImage else { return }
 
-    let displaySize = getDisplaySize(for: image)
+  let displaySize = getDisplaySize(for: image)
 
-    // Calculate scaling factor from display size to actual image size
-    let scaleX = image.size.width / displaySize.width
-    let scaleY = image.size.height / displaySize.height
+  // Calculate scaling factor from display size to actual image size
+  let scaleX = image.size.width / displaySize.width
+  let scaleY = image.size.height / displaySize.height
 
-    // Convert crop rect to image coordinates
-    let imageCropRect = CGRect(
-        x: cropRect.origin.x * scaleX,
-        y: cropRect.origin.y * scaleY,
-        width: cropRect.width * scaleX,
-        height: cropRect.height * scaleY
-    )
+  // Convert crop rect to image coordinates
+  let imageCropRect = CGRect(
+    x: cropRect.origin.x * scaleX,
+    y: cropRect.origin.y * scaleY,
+    width: cropRect.width * scaleX,
+    height: cropRect.height * scaleY
+  )
 
-    // Ensure crop rect is within image bounds
-    let imageBounds = CGRect(origin: .zero, size: image.size)
-    let validCropRect = imageCropRect.intersection(imageBounds)
+  // Ensure crop rect is within image bounds
+  let imageBounds = CGRect(origin: .zero, size: image.size)
+  let validCropRect = imageCropRect.intersection(imageBounds)
 
-    if let cgImage = image.cgImage,
-       let croppedCGImage = cgImage.cropping(to: validCropRect) {
-        croppedImage = UIImage(cgImage: croppedCGImage)
-    }
+  if let cgImage = image.cgImage,
+     let croppedCGImage = cgImage.cropping(to: validCropRect) {
+    croppedImage = UIImage(cgImage: croppedCGImage)
+  }
 }
 ```
 
@@ -138,18 +138,18 @@ The application maintains proper scaling between display and actual image sizes:
 
 ```swift
 private func getDisplaySize(
-    for image: UIImage,
-    containerWidth: CGFloat = UIScren.main.bounds.width
+  for image: UIImage,
+  containerWidth: CGFloat = UIScren.main.bounds.width
 ) -> CGSize {
-    if let cached = cachedDisplaySize {
-        return cached
-    }
-    let imageAspect = image.size.width / image.size.height
-    let displayHeight = min(400, containerWidth / imageAspect)
-    let displayWidth = displayHeight * imageAspect
-    let size = CGSize(width: displayWidth, height: displayHeight)
-    cachedDisplaySize = size
-    return size
+  if let cached = cachedDisplaySize {
+    return cached
+  }
+  let imageAspect = image.size.width / image.size.height
+  let displayHeight = min(400, containerWidth / imageAspect)
+  let displayWidth = displayHeight * imageAspect
+  let size = CGSize(width: displayWidth, height: displayHeight)
+  cachedDisplaySize = size
+  return size
 }
 ```
 
