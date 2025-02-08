@@ -169,4 +169,4 @@ private func getDisplaySize(
 4. **Memory Management**: Proper cleanup of resources when loading new images
 5. **Constraints**: Crop rectangle is constrained within image bounds
 
-This implementation provides a robust foundation for image cropping functionality that can be extended with additional features like aspect ratio controls, rotation, or more sophisticated image processing capabilities.
+This implementation provides a foundation for image cropping functionality that can be extended with additional features like aspect ratio controls, rotation, or more sophisticated image processing capabilities.
